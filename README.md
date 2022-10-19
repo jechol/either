@@ -14,7 +14,7 @@ This library is copied from `Reather.Either` from [SeokminHong/reather-lite](htt
 ```elixir
 def deps do
   [
-    {:either, "~> 0.1.0"}
+    {:either, "~> 0.1.1"}
   ]
 end
 ```
