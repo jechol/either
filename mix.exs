@@ -35,7 +35,7 @@ defmodule Either.MixProject do
     [
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/jechol/either"},
-      maintainers: ["Jechol Lee (mr.jechol@gmail.com)"]
+      maintainers: ["Seokmin Hong (ghdtjrald240@gmail.com)", "Jechol Lee (mr.jechol@gmail.com)"]
     ]
   end
 
