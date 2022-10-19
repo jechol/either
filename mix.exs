@@ -11,7 +11,7 @@ defmodule Either.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
-      source_url: "https://github.com/jechol/rail",
+      source_url: "https://github.com/jechol/either",
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
@@ -34,7 +34,7 @@ defmodule Either.MixProject do
   defp package do
     [
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/jechol/rail"},
+      links: %{"GitHub" => "https://github.com/jechol/either"},
       maintainers: ["Jechol Lee (mr.jechol@gmail.com)"]
     ]
   end
@@ -51,9 +51,9 @@ defmodule Either.MixProject do
   defp docs() do
     [
       main: "readme",
-      name: "rail",
-      canonical: "http://hexdocs.pm/rail",
-      source_url: "https://github.com/jechol/rail",
+      name: "either",
+      canonical: "http://hexdocs.pm/either",
+      source_url: "https://github.com/jechol/either",
       extras: [
         "README.md",
         "LICENSE"

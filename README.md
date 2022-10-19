@@ -1,88 +1,53 @@
 # Either
 
-[![test](https://github.com/jechol/rail/actions/workflows/test.yml/badge.svg)](https://github.com/jechol/rail/actions/workflows/test.yml)
-[![Coverage Status](https://coveralls.io/repos/github/jechol/rail/badge.svg?branch=main)](https://coveralls.io/github/jechol/rail?branch=main)
-[![Hex.pm](https://img.shields.io/hexpm/v/rail)](https://hex.pm/packages/rail)
-[![GitHub](https://img.shields.io/github/license/jechol/rail)](https://github.com/jechol/rail/blob/main/LICENSE)
+[![test](https://github.com/jechol/either/actions/workflows/test.yml/badge.svg)](https://github.com/jechol/either/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/jechol/either/badge.svg?branch=main)](https://coveralls.io/github/jechol/either?branch=main)
+[![Hex.pm](https://img.shields.io/hexpm/v/either)](https://hex.pm/packages/either)
+[![GitHub](https://img.shields.io/github/license/jechol/either)](https://github.com/jechol/either/blob/main/LICENSE)
 
-`Either` is a helper macros for "Railway oriented programming".
+`Either` is helpers to handle `:ok`, `{:ok, value}`, `:error` and `{:error, reason}` in consistent way.
 
-It helps you handle error cases at almost no cost with `rail`, `>>>`, and `def` macro.
-
-If you are not comfortable with "Railway oriented programming", see [Railway oriented programming](https://www.youtube.com/watch?v=fYo3LN9Vf_M)
-
-This library is mostly copied from [SeokminHong/reather-lite](https://github.com/SeokminHong/reather-lite) and removed reader monad related stuffs to lower learning curve.
+This library is copied from `Reather.Either` from [SeokminHong/reather-lite](https://github.com/SeokminHong/reather-lite).
 
 ## Installation
 
 ```elixir
 def deps do
   [
-    {:either, "~> 0.2.1"}
+    {:either, "~> 0.1.0"}
   ]
 end
 ```
 
 ## Usage
 
-### Basic usage
+### `Either.new`
 
-`use Either` introduces new syntax `left <- right`,
+Convert a value into `ok` or `error` tuple. The result is a tuple having
+an `:ok` or `:error` atom for the first element, and a value for the second
+element.
 
-- which bind `value` to left when right is `{:ok, value}` or `value`
-- or skips entire code block when right is `{:error, err}` or `:error`.
+### `Either.error`
 
-```elixir
+Make an error tuple from a value.
 
-defmodule Target do
-  use Either
+### `Either.map`
 
-  def div(num, denom) do
-    denom <- check_denom(denom)
-    num / denom
-  end
+`map` a function to an either tuple.
+The given function will be applied lazily
+when the either is an `ok` tuple.
 
-  def check_denom(0) do
-    {:error, :div_by_zero}
-  end
+### `Either.traverse`
 
-  def check_denom(n) do
-    # same with {:ok, n}
-    n
-  end
-end
-
-iex> Calc.div(10, 2)
-5.0
-iex> Calc.div(10, 0)
-{:error, :div_by_zero}
-```
-
-`rail/1` is available inside other code blocks.
+Transform a list of eithers to an either of a list.
+If any of the eithers is `error`, the result is `error`.
 
 ```elixir
-
-iex> rail do
-...    x <- {:ok, 1}
-...    y <- {:ok, 2}
-...
-...    x + y
-...  end
-3
-```
-
-`left >>> right` is similar to `|>`, but
-
-- applies right function only when left is `value` or `{:ok, value}`.
-- support both function and call expression, which makes it compatible with `|>`.
-
-```elixir
-iex> 1 >>> fn v -> Integer.to_string(v) end
-"1"
-iex> {:ok, 1} >>> Integer.to_string()
-"1"
-iex> {:error, :div_by_zero} >>> Integer.to_string()
-{:error, :div_by_zero}
+iex> [{:ok, 1}, {:ok, 2}] |> Either.traverse()
+{:ok, [1, 2]}
+iex> [{:ok, 1}, {:error, "error!"}, {:ok, 2}]
+...> |> Either.traverse()
+{:error, "error!"}
 ```
 
 ## LICENSE

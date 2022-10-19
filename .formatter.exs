@@ -1,7 +1,7 @@
 # Used by "mix format"
 locals_without_parens = [
-  rail: 1,
-  rail: 2,
+  either: 1,
+  either: 2,
   railp: 2
 ]
 
