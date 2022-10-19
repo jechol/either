@@ -1,4 +1,4 @@
-defmodule Rail.Either do
+defmodule Rail.Okay do
   @type ok(t) :: {:ok, t}
   @type error(t) :: {:error, t}
   @type either(t) :: ok(t) | error(any)
@@ -13,23 +13,23 @@ defmodule Rail.Either do
   element.
 
   ## Examples
-      iex> Either.new(:ok)
+      iex> Okay.new(:ok)
       {:ok, nil}
-      iex> Either.new(:error)
+      iex> Okay.new(:error)
       {:error, nil}
-      iex> Either.new({:ok, 3})
+      iex> Okay.new({:ok, 3})
       {:ok, 3}
-      iex> Either.new({:error, "error!"})
+      iex> Okay.new({:error, "error!"})
       {:error, "error!"}
-      iex> Either.new({:ok, 1, 2})
+      iex> Okay.new({:ok, 1, 2})
       {:ok, {1, 2}}
-      iex> Either.new({:error, "error", :invalid})
+      iex> Okay.new({:error, "error", :invalid})
       {:error, {"error", :invalid}}
-      iex> Either.new({1, 2})
+      iex> Okay.new({1, 2})
       {:ok, {1, 2}}
-      iex> Either.new({})
+      iex> Okay.new({})
       {:ok, {}}
-      iex> Either.new(1)
+      iex> Okay.new(1)
       {:ok, 1}
   """
   @spec new(any) :: either_like
@@ -54,9 +54,9 @@ defmodule Rail.Either do
   Wrap a value with an ok tuple.
 
   ## Examples
-      iex> Either.ok(1)
+      iex> Okay.ok(1)
       {:ok, 1}
-      iex> Either.ok({:error, 1})
+      iex> Okay.ok({:error, 1})
       {:ok, {:error, 1}}
   """
   @spec ok(t) :: ok(t) when t: any
@@ -66,9 +66,9 @@ defmodule Rail.Either do
   Wrap a value with an error tuple.
 
   ## Examples
-      iex> Either.error(1)
+      iex> Okay.error(1)
       {:error, 1}
-      iex> Either.error({:ok, 1})
+      iex> Okay.error({:ok, 1})
       {:error, {:ok, 1}}
   """
   @spec error(t) :: error(t) when t: any
@@ -78,11 +78,11 @@ defmodule Rail.Either do
   Unwrap a value from an ok tuple.
 
   ## Examples
-      iex> Either.unwrap({:ok, 1})
+      iex> Okay.unwrap({:ok, 1})
       1
-      iex> Either.unwrap({:error, 1})
+      iex> Okay.unwrap({:error, 1})
       ** (RuntimeError) 1
-      iex> Either.unwrap({:ok, 1, 2, 3})
+      iex> Okay.unwrap({:ok, 1, 2, 3})
       {1, 2, 3}
   """
   @spec unwrap(ok_like) :: any
@@ -95,13 +95,13 @@ defmodule Rail.Either do
   If the value is an error tuple, use passed default value or function.
 
   ## Examples
-      iex> Either.unwrap_or({:ok, 1}, 0)
+      iex> Okay.unwrap_or({:ok, 1}, 0)
       1
-      iex> Either.unwrap_or({:error, ""}, 0)
+      iex> Okay.unwrap_or({:error, ""}, 0)
       0
-      iex> Either.unwrap_or({:error, ""}, fn -> "default" end)
+      iex> Okay.unwrap_or({:error, ""}, fn -> "default" end)
       "default"
-      iex> Either.unwrap_or(:error, "hello")
+      iex> Okay.unwrap_or(:error, "hello")
       "hello"
   """
   @spec unwrap_or(either_like, t | (() -> t)) :: t when t: any
@@ -114,13 +114,13 @@ defmodule Rail.Either do
   Check if the value is an ok tuple.
 
   ## Examples
-      iex> Either.ok?({:ok, 1})
+      iex> Okay.ok?({:ok, 1})
       true
-      iex> Either.ok?(:ok)
+      iex> Okay.ok?(:ok)
       true
-      iex> Either.ok?({:error, 1})
+      iex> Okay.ok?({:error, 1})
       false
-      iex> Either.ok?(:error)
+      iex> Okay.ok?(:error)
       false
   """
   @spec ok?(either_like) :: boolean
@@ -132,9 +132,9 @@ defmodule Rail.Either do
   Create a either from a boolean.
 
   ## Examples
-      iex> Either.confirm(true)
+      iex> Okay.confirm(true)
       {:ok, nil}
-      iex> Either.confirm(false, :value_error)
+      iex> Okay.confirm(false, :value_error)
       {:error, :value_error}
   """
   @spec confirm(boolean, t) :: either(t) when t: any
@@ -148,11 +148,11 @@ defmodule Rail.Either do
   If the either is `error`, it returns as is.
 
   ## Examples
-      iex> {:ok, 1} |> Either.map(fn x -> x + 1 end)
+      iex> {:ok, 1} |> Okay.map(fn x -> x + 1 end)
       {:ok, 2}
-      iex> {:error, 1} |> Either.map(fn x -> x + 1 end)
+      iex> {:error, 1} |> Okay.map(fn x -> x + 1 end)
       {:error, 1}
-      iex> :ok |> Either.map(fn _ -> 1 end)
+      iex> :ok |> Okay.map(fn _ -> 1 end)
       {:ok, 1}
   """
   @spec map(either_like, (any -> t)) :: either(t) when t: any
@@ -172,11 +172,11 @@ defmodule Rail.Either do
   Map a function to the `error` tuple.
 
   ## Examples
-      iex> {:error, 1} |> Either.map_err(fn x -> x + 1 end)
+      iex> {:error, 1} |> Okay.map_err(fn x -> x + 1 end)
       {:error, 2}
-      iex> {:ok, 1} |> Either.map_err(fn x -> x + 1 end)
+      iex> {:ok, 1} |> Okay.map_err(fn x -> x + 1 end)
       {:ok, 1}
-      iex> :error |> Either.map_err(fn _ -> 1 end)
+      iex> :error |> Okay.map_err(fn _ -> 1 end)
       {:error, 1}
   """
   @spec map_err(either_like, (any -> t)) :: either(t) when t: any
@@ -189,10 +189,10 @@ defmodule Rail.Either do
   If any of the eithers is `error`, the result is `error`.
 
   ## Examples
-      iex> [{:ok, 1}, {:ok, 2}] |> Either.traverse()
+      iex> [{:ok, 1}, {:ok, 2}] |> Okay.traverse()
       {:ok, [1, 2]}
       iex> [{:ok, 1}, {:error, "error!"}, {:ok, 2}]
-      ...> |> Either.traverse()
+      ...> |> Okay.traverse()
       {:error, "error!"}
   """
   @spec traverse([either_like]) :: either([any])

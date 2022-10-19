@@ -1,6 +1,6 @@
-defmodule Rail.EitherTest do
+defmodule Rail.OkayTest do
   use ExUnit.Case
-  alias Rail.Either
+  alias Rail.Okay
 
-  doctest Rail.Either
+  doctest Rail.Okay
 end
