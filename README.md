@@ -1,11 +1,11 @@
-# Rail
+# Either
 
 [![test](https://github.com/jechol/rail/actions/workflows/test.yml/badge.svg)](https://github.com/jechol/rail/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/jechol/rail/badge.svg?branch=main)](https://coveralls.io/github/jechol/rail?branch=main)
 [![Hex.pm](https://img.shields.io/hexpm/v/rail)](https://hex.pm/packages/rail)
 [![GitHub](https://img.shields.io/github/license/jechol/rail)](https://github.com/jechol/rail/blob/main/LICENSE)
 
-`Rail` is a helper macros for "Railway oriented programming".
+`Either` is a helper macros for "Railway oriented programming".
 
 It helps you handle error cases at almost no cost with `rail`, `>>>`, and `def` macro.
 
@@ -18,7 +18,7 @@ This library is mostly copied from [SeokminHong/reather-lite](https://github.com
 ```elixir
 def deps do
   [
-    {:rail, "~> 0.2.1"}
+    {:either, "~> 0.2.1"}
   ]
 end
 ```
@@ -27,7 +27,7 @@ end
 
 ### Basic usage
 
-`use Rail` introduces new syntax `left <- right`,
+`use Either` introduces new syntax `left <- right`,
 
 - which bind `value` to left when right is `{:ok, value}` or `value`
 - or skips entire code block when right is `{:error, err}` or `:error`.
@@ -35,7 +35,7 @@ end
 ```elixir
 
 defmodule Target do
-  use Rail
+  use Either
 
   def div(num, denom) do
     denom <- check_denom(denom)

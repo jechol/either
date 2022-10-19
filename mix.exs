@@ -1,12 +1,12 @@
-defmodule Rail.MixProject do
+defmodule Either.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :rail,
-      description: "Railway oriented programming for Elixir",
+      app: :either,
+      description: "ok/error tuple helpers for Elixir",
       docs: docs(),
-      version: "0.2.1",
+      version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
